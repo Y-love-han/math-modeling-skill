@@ -1,0 +1,316 @@
+% ============================================================
+%  数学建模竞赛论文 LaTeX 模板
+%  符合《全国大学生数学建模竞赛论文格式规范（2026 年修订稿）》
+%  编译命令：xelatex main.tex（连续两次，确保交叉引用正确）
+%  如使用 bibtex：xelatex → bibtex → xelatex → xelatex
+% ============================================================
+\documentclass[12pt,a4paper]{article}
+
+% ---------- 中文支持 ----------
+\usepackage[UTF8, scheme=plain]{ctex}
+
+% ---------- 章节编号格式 ----------
+% ⚠️ \section{} 中只需写标题，不要手动加编号，ctex 自动生成
+% "一、问题重述" / "1.1 问题背景" / "5.1.1 模型推导"
+\ctexset{
+    section/number = \chinese{section},
+    section/name = {,、},
+    section/aftername = \quad,
+    section/format = \zihao{4}\heiti\bfseries,
+    subsection/number = \arabic{section}.\arabic{subsection},
+    subsection/name = {},
+    subsection/aftername = \quad,
+    subsection/format = \normalsize\bfseries,
+    subsubsection/number = \arabic{section}.\arabic{subsection}.\arabic{subsubsection},
+    subsubsection/name = {},
+    subsubsection/aftername = \quad,
+    subsubsection/format = \normalsize\bfseries,
+}
+
+% ---------- 页面设置（官方要求：页边距 ≥ 2.5cm）----------
+\usepackage{geometry}
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
+
+% ---------- 页码设置（从摘要页起，页脚居中，阿拉伯数字从1开始）----------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+% ---------- 行距与缩进 ----------
+\usepackage{setspace}
+\setstretch{1.25}
+\setlength{\parindent}{2em}
+
+% ---------- 数学公式 ----------
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+
+% ---------- 表格 ----------
+\usepackage{booktabs, longtable, multirow, multicol, array, makecell}
+\usepackage[table]{xcolor}
+
+% ---------- 图片 ----------
+\usepackage{graphicx}
+\graphicspath{{figures/}{./}}
+\usepackage{float}
+\usepackage{caption, subcaption}
+\captionsetup{font={small}, labelfont=bf}
+\captionsetup[figure]{name=图}
+\captionsetup[table]{name=表}
+
+% ---------- 代码块 ----------
+\usepackage{listings}
+\lstset{
+    basicstyle=\small\ttfamily,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{orange},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    frame=single,
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=4,
+    showstringspaces=false,
+    language=Python
+}
+
+% ---------- 算法伪代码 ----------
+\usepackage{algorithm, algpseudocode}
+
+% ---------- 超链接 ----------
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=blue,
+    bookmarksopen=true
+}
+
+% ---------- 自定义命令 ----------
+\newcommand{\upcite}[1]{\textsuperscript{\cite{#1}}}
+
+% ============================================================
+\begin{document}
+
+% 页码从 1 开始（阿拉伯数字）
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\thispagestyle{fancy}
+
+% ============================================================
+%  摘要专用页（第一页，500-800字，必须撑满整页，末行距底部 ≤3cm）
+%  页边距：上下左右各 2.5cm（geometry 已全局设置）
+% ============================================================
+\begin{center}
+    {\zihao{-2}\heiti [论文标题：基于XXX的XXX建模与优化研究]\par}
+    \vspace{1em}
+    {\zihao{4}\heiti 摘\quad 要\par}
+\end{center}
+\vspace{0.5em}
+
+% 摘要正文（500-800 字，12pt，1.25倍行距，必须撑满一页）
+[开头段：2--4句问题背景概述 + 金句嵌入（"本文的核心发现是：..."）+ 1句整体方法框架]
+
+针对问题一，[方法描述（具体算法全称+模型类型，如"基于Karush-Kuhn-Tucker条件的非凸约束优化算法"）] → [推导/求解过程简述] → [精确数值结果（有效数字 ≥5位，含95%CI）] → [交叉验证结果（两种方法+相对误差，如"与蒙特卡洛模拟结果一致，相对误差 <1.2%"）]。
+
+针对问题二，[方法描述] → [求解过程] → [精确数值结果（含CI）] → [验证]。
+
+针对问题三，[...]
+
+针对问题四，[...]
+
+% 贡献声明段（3-5句，摘要末尾，必须存在）
+本文的主要贡献在于：(1) [核心贡献一——提出了...]；(2) [核心贡献二——揭示了...]；(3) [核心贡献三——构建了...]。灵敏度分析表明，[关键结论——如"模型在参数 ±20% 范围内结论稳健"]。交叉验证中 [方法A] 与 [方法B] 的结果一致（相对误差 <X%），验证了本文方法的可靠性。
+
+\vspace{0.5em}
+\noindent{\heiti\textbf{关键词：}}关键词1；关键词2；关键词3；关键词4；关键词5
+
+\newpage
+
+% ============================================================
+%  正文（不超过 30 页，无目录）
+% ============================================================
+
+% ---------- 一、问题重述 ----------
+\section{问题重述}
+\subsection{问题背景}  % 2--4 段，从宏观背景到具体问题，引用文献标注 [N]
+\subsection{问题提出}  % 逐问列出题目要求
+
+% ---------- 二、问题分析 ----------
+\section{问题分析}
+\subsection{问题一的分析}  % 说明解题思路和方法选择理由
+\subsection{问题二的分析}
+\subsection{问题三的分析}
+\subsection{问题四的分析}
+\subsection{问题关联性分析}  % 一等奖加分项
+
+% [技术路线图——一等奖高频特征]
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=0.9\textwidth]{figures/tech_route.png}
+%   \caption{本文技术路线图}
+%   \label{fig:tech_route}
+% \end{figure}
+
+% ---------- 三、模型假设 ----------
+\section{模型假设}
+\begin{enumerate}
+    \item 假设1：[假设内容]。理由：[必要性论证/合理性说明]
+    \item 假设2：...
+\end{enumerate}
+
+% ---------- 四、符号说明 ----------
+\section{符号说明}
+\begin{table}[H]
+    \centering
+    \caption{符号说明表}
+    \label{tab:symbols}
+    \begin{tabular}{clcc}
+        \toprule
+        \textbf{符号} & \textbf{含义} & \textbf{单位} & \textbf{首次出现位置} \\
+        \midrule
+        $x$ & 变量 x 的含义 & m & 第 5.1 节 \\
+        $f(x)$ & 目标函数 & — & 第 5.1 节 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+% ---------- 五、问题一的建模与求解 ----------
+\section{问题一的建模与求解}
+\subsection{问题建模}
+\subsubsection{模型推导}  % 完整数学推导
+\subsubsection{模型假设与适用条件}
+\subsubsection{与现有方法的区别}
+\subsubsection{渐进式建模说明}  % 一等奖特征：展示从简化到最终模型的决策过程
+
+\subsection{理论分析}  % 一等奖区分点
+\subsubsection{收敛性分析}
+\subsubsection{复杂度分析}
+\subsubsection{误差界估计}
+
+\subsection{算法设计与实现}
+\begin{algorithm}[H]
+\caption{算法名称}
+\begin{algorithmic}[1]
+\Require 输入参数
+\Ensure 输出结果
+\State 初始化
+\For{每个迭代}
+    \State 执行操作
+\EndFor
+\State \Return 结果
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{创新点与消融实验}  % 一等奖区分点
+\subsubsection{创新点一：[名称]}  % 原理 + 消融实验结果
+
+\subsection{结果分析}  % 含置信区间、多方法对比、统计显著性
+
+\subsection{不确定性量化}  % 一等奖区分点
+
+% ---------- 六/七/八、问题二/三/四的建模与求解 ----------
+% [结构同上]
+
+% ---------- N、模型验证与灵敏度分析 ----------
+\section{模型验证与灵敏度分析}
+\subsection{多方法交叉验证}
+\subsubsection{残差分析}
+\subsubsection{交叉验证（重复 10 折）}
+\subsubsection{对比验证（≥3 种方法 + 统计检验）}
+\subsection{灵敏度分析}
+\subsubsection{单因素灵敏度（Tornado 图）}
+\subsubsection{多因素交互效应（Sobol 指数）}
+\subsection{稳健性验证}
+\subsubsection{蒙特卡洛模拟（次数按计算量动态调整）}
+\subsubsection{最坏情况分析}
+\subsubsection{置信区间估计}
+
+% ---------- N+1、讨论 ----------
+\section{讨论}  % 一等奖区分点
+\subsection{与已有文献的定量对比}  % ≥3 篇对比 + 差异原因分解
+\subsection{意外发现与反常结果的深度分析}
+\subsection{机理解释}  % 数学层 → 数据层 → 领域层
+\subsection{模型局限性}  % 诚实且有深度：来源→影响→合理性→消除路径
+\subsection{未来改进方向}  % 具体化：方法路径 + 预期效果 + 难点
+
+% ---------- N+2、模型评价与推广 ----------
+\section{模型评价与推广}
+\subsection{模型优点}  % 按 6 维度逐一论证
+\subsection{模型不足与改进}
+\subsection{推广应用}  % 具体场景 + 适配条件
+
+% ---------- 结论 ----------
+\section{结论}
+核心贡献总结 + 关键数值结果汇总(含 CI) + 对实际决策的建议(3-5 条)
+\label{lastmain}  % ⛔ 锁14篇幅验证：标记正文最后一页（结论末），不可删除
+
+% ---------- 参考文献 ----------
+% GB/T 7714 格式，≥15 篇，含 ≥5 篇英文
+% 推荐使用 bibtex + gbt7714 宏包自动格式化
+\begin{thebibliography}{99}
+\bibitem{ref1} 作者. 标题[J]. 期刊名, 年份, 卷(期): 起止页码.
+\bibitem{ref2} Author. Title[J]. Journal, Year, Vol(Issue): Pages.
+\end{thebibliography}
+\newpage  % ⛔ 参考文献与附录之间必须有分页符（锁14）
+% ============================================================
+%  附录（页数不限，必须与正文装订在一起）
+% ============================================================
+\appendix  % ⛔ 紧接 \newpage 之后，确保附录从新页开始
+\section*{附录一：支撑材料文件列表}
+\begin{table}[H]
+    \centering
+    \caption{支撑材料文件列表}
+    \begin{tabular}{llcl}
+        \toprule
+        \textbf{文件名} & \textbf{类型} & \textbf{行数} & \textbf{说明} \\
+        \midrule
+        \rowcolor{blue!5}
+        \multicolumn{4}{l}{\textbf{源代码}} \\
+        problem1.py & Python & — & 问题一完整求解代码 \\
+        problem2.py & Python & — & 问题二完整求解代码 \\
+        utils.py & Python & — & 公共工具函数 \\
+        sensitivity\_analysis.py & Python & — & 灵敏度分析代码 \\
+        \rowcolor{green!5}
+        \multicolumn{4}{l}{\textbf{输入数据}} \\
+        data.xlsx & Excel & — & 题目原始数据 \\
+        \rowcolor{orange!5}
+        \multicolumn{4}{l}{\textbf{输出结果}} \\
+        result1.csv & CSV & — & 问题一结果 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section*{附录二：运行环境依赖}
+\begin{lstlisting}[language=bash, caption={requirements.txt}]
+numpy>=1.24.0
+scipy>=1.10.0
+pandas>=2.0.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+networkx>=3.0
+scikit-learn>=1.2.0
+statsmodels>=0.14.0
+SALib>=1.4.0
+openpyxl>=3.1.0
+\end{lstlisting}
+
+\section*{附录三：utils.py 完整代码}
+% [在此粘贴 utils.py 完整代码]
+
+\section*{附录四：problem1.py 完整代码}
+% [在此粘贴 problem1.py 完整代码]
+
+\section*{附录五：problem2.py 完整代码}
+% [在此粘贴 problem2.py 完整代码]
+
+\section*{附录六：sensitivity\_analysis.py 完整代码}
+% [在此粘贴 sensitivity_analysis.py 完整代码]
+
+\section*{附录七：statistical\_tests.py 完整代码}
+% [在此粘贴 statistical_tests.py 完整代码]
+
+\end{document}
